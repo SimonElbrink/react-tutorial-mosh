@@ -12,7 +12,7 @@ npm i bootstrap@4.1.1
 
 In `PROJECTNAME/src/index.js`
 
-```
+```JavaScript
 import 'bootstrap/dist/css/bootstrap.css';
 ```
 
@@ -22,7 +22,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 You could export the component this way. But lets keep it to..
 
-```Javascript
+```JavaScript
 import React, { Component } from "react";
 
 export default class Counter extends Component {
@@ -34,7 +34,7 @@ export default class Counter extends Component {
 
 ..this
 
-```Javascript
+```JavaScript
 import React, { Component } from "react";
 
 class Counter extends Component {
@@ -81,29 +81,40 @@ class Counter extends Component {
 
 You could do it like this..
 
-```Javascript
+```JavaScript
  styles = {
     fontSize: 10,
     fontWeight: "bold"
   };
 ```
 
-```Javascript
-        <span
-        style={this.styles}>
-          {this.formatCount()}
-        </span>
+```JavaScript
+<span style={this.styles}>
+  {this.formatCount()}
+</span>
 ```
 
 ..or this.
 
-```Javascript
-        <span
-        style={{ fontSize: 10, fontWeight: "bold" }}>
-          {this.formatCount()}
-        </span>
+```JavaScript
+<span style={{ fontSize: 10, fontWeight: "bold" }}>
+  {this.formatCount()}
+</span>
 ```
 
+### RENDERING CLASSES DYNAMICALLY
+
+```JavaScript
+GetBadgeClasses() {
+let classes = "badge m-2 badge-";
+classes += this.state.count === 0 ? "warning" : "primary";
+return classes;
+}
 ```
+
+```JavaScript
+<span className={this.GetBadgeClasses()}>
+  {this.formatCount()}
+</span>
 
 ```
