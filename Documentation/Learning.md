@@ -46,6 +46,10 @@ class Counter extends Component {
 export default Counter;
 ```
 
+## SETTING ATTRIBUTES
+
+### DYNAMIC PICTURE
+
 `state`, `imageUrl`, `{this.state.imageUrl}`, `<React.Fragment>`
 
 ```JavaScript
@@ -71,4 +75,35 @@ class Counter extends Component {
     return count === 0 ? "Zero" : count;
   }
 }
+```
+
+### STYLING
+
+You could do it like this..
+
+```Javascript
+ styles = {
+    fontSize: 10,
+    fontWeight: "bold"
+  };
+```
+
+```Javascript
+        <span
+        style={this.styles}>
+          {this.formatCount()}
+        </span>
+```
+
+..or this.
+
+```Javascript
+        <span
+        style={{ fontSize: 10, fontWeight: "bold" }}>
+          {this.formatCount()}
+        </span>
+```
+
+```
+
 ```
