@@ -312,3 +312,50 @@ class Counter extends Component {
 }
 export default Counter;
 ```
+
+### PASSING CHILDREN
+
+`PROJECTNAME/component/counter.jsx`
+
+```JavaScript
+  render() {
+    console.log(this.props);
+
+    return (
+      <React.Fragment>
+        {this.props.children}
+        ...some irrelevent code
+      </React.Fragment>
+    );
+  }
+```
+
+Add `<h4>` between `<Counter>` tags like this.
+
+`PROJECTNAME/component/counters.jsx`
+
+```JavaScript
+          <Counter key={counter.id} value={counter.value}>
+            <h4>Counter #{counter.id}</h4>
+          </Counter>
+```
+**You could also do it like this:**
+>There are use cases for them both.
+
+change the props we wrote in `counter` from:
+```
+{this.props.children}
+```
+To:
+```
+<h4>{this.props.id}</h4>
+
+```
+
+In `counters` add `id` in `<Counter>` like this:
+```JavaScript
+          <Counter key={counter.id} value={counter.value} id={counter.id}>
+            <h4>Counter #{counter.id}</h4>
+          </Counter>
+```
+
