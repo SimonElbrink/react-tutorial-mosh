@@ -156,3 +156,71 @@ You need to ´setState´ like this. Not like this `this.state.count++`.
     });
   };
 ```
+
+### PASSING EVENT ARGUMENTS
+
+Adding `doHandleIncrement` temporary, for illustration.  
+Adding argument `product`.
+
+```JavaScript
+  state = {
+    count: 0
+  };
+
+ handleIncrement = product => {
+    console.log(product);
+    this.setState({
+      count: this.state.count + 1
+    });
+  };
+
+  doHandleIncrement = () => {
+    this.handleIncrement({ id: 1 });
+  };
+
+ render() {
+   return (
+      <React.Fragment>
+        //...some irrelevant code
+        <button
+          onClick={this.doHandleIncrement}
+          className="btn btn-secondary btn-sm">
+          Increment
+        </button>
+        //...more irrelevant code
+      </React.Fragment>
+    );
+```
+
+You could do it more clean, like this.  
+Remove `doHandleIncrement` and make a inline function instead.
+
+> sources says that this is not efficient code. For now we leave it there.
+
+```JavaScript
+  state = {
+    count: 0,
+    tags: ["tag1", "tag2", "tag3"]
+  };
+
+ handleIncrement = product => {
+    console.log(product);
+    this.setState({
+      count: this.state.count + 1
+    });
+  };
+
+ render() {
+   return (
+     <React.Fragment>
+        //...some irrelevant code
+        <button
+          onClick={
+            () => this.handleIncrement(product)}
+          className="btn btn-secondary btn-sm">
+          Increment
+        </button>
+        //...more irrelevant code
+      </React.Fragment>
+    );
+```
