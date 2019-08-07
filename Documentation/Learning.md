@@ -116,5 +116,31 @@ return classes;
 <span className={this.GetBadgeClasses()}>
   {this.formatCount()}
 </span>
+```
 
+### BINDING EVENT HANDLER
+
+To access `this` in my function below. You need..
+
+```JavaScript
+  handleIncrement() {
+    console.log("Increment clicked" + this);
+  };
+```
+
+to make a constructor. Or..
+
+```JavaScript
+  constructor () {
+    super();
+    this.handleIncrement = this.handleIncrement.bind(this);
+  }
+```
+
+..just do it like this with the arrow function without constructor.
+
+```JavaScript
+  handleIncrement = () => {
+    console.log("Increment clicked" + this);
+  };
 ```
