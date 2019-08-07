@@ -1,6 +1,10 @@
 # REACT WITH MOSH
 
-## INSTALLATION
+[Source : Youtube ](https://www.youtube.com/watch?v=Ke90Tje7VS0&t=4592s)
+
+## INTRODUTION
+
+### INSTALLATION
 
 In CMD in Project.
 
@@ -46,9 +50,9 @@ class Counter extends Component {
 export default Counter;
 ```
 
-## SETTING ATTRIBUTES
+### SETTING ATTRIBUTES
 
-### DYNAMIC PICTURE
+#### DYNAMIC PICTURE
 
 `state`, `imageUrl`, `{this.state.imageUrl}`, `<React.Fragment>`
 
@@ -77,7 +81,7 @@ class Counter extends Component {
 }
 ```
 
-### STYLING
+#### STYLING
 
 You could do it like this..
 
@@ -102,7 +106,7 @@ You could do it like this..
 </span>
 ```
 
-### RENDERING CLASSES DYNAMICALLY
+#### RENDERING CLASSES DYNAMICALLY
 
 ```JavaScript
 GetBadgeClasses() {
@@ -118,7 +122,7 @@ return classes;
 </span>
 ```
 
-### BINDING EVENT HANDLER
+#### BINDING EVENT HANDLER
 
 To access `this` in my function below. You need..
 
@@ -145,7 +149,7 @@ to make a constructor. Or..
   };
 ```
 
-### UPDATING THE STATE
+#### UPDATING THE STATE
 
 You need to ´setState´ like this. Not like this `this.state.count++`.
 
@@ -157,10 +161,10 @@ You need to ´setState´ like this. Not like this `this.state.count++`.
   };
 ```
 
-### PASSING EVENT ARGUMENTS
+#### PASSING EVENT ARGUMENTS
 
-Adding `doHandleIncrement` temporary, for illustration.  
-Adding argument `product`.
+- Adding `doHandleIncrement` temporary, for illustration.
+- Adding argument `product`.
 
 ```JavaScript
   state = {
@@ -223,4 +227,88 @@ Remove `doHandleIncrement` and make a inline function instead.
         //...more irrelevant code
       </React.Fragment>
     );
+```
+
+## COMPOSING COMPONENTS
+
+### PASSING DATA TO COMPONENTS
+
+- First create `counters.jsx`.
+- configure it like i did below.
+- Make sure we render `<Counters/>` in `index.js`
+- In `counter.jsx` configure like i did below. `props`, `value`, `handleIncrement`
+
+`PROJECTNAME/component/counters.jsx`
+
+```JavaScript
+import React, { Component } from "react";
+import Counter from "./counter";
+
+class Counters extends Component {
+  state = {
+    counters: [
+      { id: 1, value: 4 },
+      { id: 2, value: 3 },
+      { id: 3, value: 1 },
+      { id: 4, value: 0 }
+    ]
+  };
+
+  render() {
+    return (
+      <div>
+        {this.state.counters.map(counter => (
+          <Counter key={counter.id} value={counter.value} />
+        ))}
+      </div>
+    );
+  }
+}
+export default Counters;
+```
+
+`PROJECTNAME/component/counter.jsx`
+
+```JavaScript
+import React, { Component } from "react";
+
+class Counter extends Component {
+  state = {
+    value: this.props.value
+  };
+
+  handleIncrement = () => {
+    this.setState({
+      value: this.state.value + 1
+    });
+  };
+
+  render() {
+    return (
+      <React.Fragment>
+        <span className={this.GetBadgeClasses()}>
+        {this.formatCount()}
+        </span>
+        <button
+          onClick={this.handleIncrement}
+          className="btn btn-secondary btn-sm">
+          Increment
+        </button>
+        <ul />
+      </React.Fragment>
+    );
+  }
+
+  GetBadgeClasses() {
+    let classes = "badge m-2 badge-";
+    classes += this.state.value === 0 ? "warning" : "primary";
+    return classes;
+  }
+
+  formatCount() {
+    const { value } = this.state;
+    return value === 0 ? "Zero" : value;
+  }
+}
+export default Counter;
 ```
