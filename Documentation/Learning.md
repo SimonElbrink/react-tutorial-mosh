@@ -144,3 +144,15 @@ to make a constructor. Or..
     console.log("Increment clicked" + this);
   };
 ```
+
+### UPDATING THE STATE
+
+You need to ´setState´ like this. Not like this `this.state.count++`.
+
+```JavaScript
+  handleIncrement = () => {
+    this.setState({
+      count: this.state.count + 1
+    });
+  };
+```
