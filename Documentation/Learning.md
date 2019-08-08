@@ -339,23 +339,114 @@ Add `<h4>` between `<Counter>` tags like this.
             <h4>Counter #{counter.id}</h4>
           </Counter>
 ```
+
 **You could also do it like this:**
->There are use cases for them both.
+
+> There are use cases for them both.
 
 change the props we wrote in `counter` from:
+
 ```
 {this.props.children}
 ```
+
 To:
+
 ```
 <h4>{this.props.id}</h4>
 
 ```
 
 In `counters` add `id` in `<Counter>` like this:
+
 ```JavaScript
           <Counter key={counter.id} value={counter.value} id={counter.id}>
             <h4>Counter #{counter.id}</h4>
           </Counter>
 ```
 
+### PROPS VS STATE
+
+- Both `state` and `props` are handled by React.
+
+- `state` local/private to the component.
+
+  > React is watching if the state is changed, if so it will update the DOM.
+
+- `Props` get sent between components.
+  > props are **Readonly**
+
+Sending Props to `<Counter>`
+
+> In this case `counter={counter}` sends all.
+
+> `value={counter.value}` would be an example of sending `value`.
+
+```JavaScript
+        {this.state.counters.map(counter => (
+          <Counter
+            key={counter.id}
+            onDelete={this.handleDelete}
+            counter={counter}
+          />
+        ))}
+```
+
+Here is a example of `state`.
+
+```JavaScript
+  state = {
+    counters: [
+      { id: 1, value: 4 },
+      { id: 2, value: 3 },
+      { id: 3, value: 1 },
+      { id: 4, value: 0 }
+    ]
+  };
+```
+
+## RAISING AND HANDLING EVENTS
+
+And
+
+## UPDATING THE STATE
+
+**Rule:**
+The component that _ownes_ a piece of the state, should be the one _modifying_ it.
+
+---
+
+Apply a modification in the component that ownes the information.
+
+```JavaScript
+  handleDelete = counterId => {
+    const counters = this.state.counters.filter(c => c.id !== counterId);
+    this.setState({ counters });
+  };
+```
+
+Send over the prop to the component. In my case `<Counter>`
+
+> Here i changed `value={counter.value} id={counter.id}` to just  
+> `counter={counter}`, you access it like this: `this.props.counter.id`
+
+```JavaScript
+        {this.state.counters.map(counter => (
+          <Counter
+            key={counter.id}
+            onDelete={this.handleDelete}
+            counter={counter}
+          />
+        ))}
+```
+
+Access it in `counter` component like this.
+
+```JavaScript
+        <button
+          onClick={() => this.props.onDelete(this.props.counter.id)}
+          className="btn btn-danger btn-sm m-2">
+          Delete
+        </button>
+
+```
