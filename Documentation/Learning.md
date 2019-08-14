@@ -405,11 +405,11 @@ Here is a example of `state`.
   };
 ```
 
-## RAISING AND HANDLING EVENTS
+### RAISING AND HANDLING EVENTS
 
 And
 
-## UPDATING THE STATE
+### UPDATING THE STATE
 
 **Rule:**
 The component that _ownes_ a piece of the state, should be the one _modifying_ it.
@@ -448,5 +448,127 @@ Access it in `counter` component like this.
           className="btn btn-danger btn-sm m-2">
           Delete
         </button>
+
+```
+
+### SINGLE SOURCE OF TRUTH
+
+#### REMOVING THE LOCAL STATE\*
+
+We have learn about this rule.
+
+> **Rule:**  
+> The component that _ownes_ a piece of the state, should be the one _modifying_ it.
+
+So lets do it in practice.
+
+- Remove `state` from the Component not owning the item, replace with props if needed. - single source of truth
+- Make component handle what it should. - single source of truth
+
+Should look something like this:
+
+`PROJECTNAME/component/counters.jsx`
+
+```JavaScript
+import React, { Component } from "react";
+import Counter from "./counter";
+
+class Counters extends Component {
+  state = {
+    counters: [
+      { id: 1, value: 4 },
+      { id: 2, value: 3 },
+      { id: 3, value: 1 },
+      { id: 4, value: 0 }
+    ]
+  };
+
+  handleIncrement = counter => {
+    const counters = [...this.state.counters];
+    const index = counters.indexOf(counter);
+    counters[index] = { ...counter };
+    counters[index].value++;
+    this.setState({ counters });
+  };
+
+  handleReset = () => {
+    const counters = this.state.counters.map(c => {
+      c.value = 0;
+      return c;
+    });
+    this.setState({ counters });
+  };
+
+  handleDelete = counterId => {
+    const counters = this.state.counters.filter(c => c.id !== counterId);
+    this.setState({ counters });
+  };
+
+  render() {
+    return (
+      <div>
+        <button
+          onClick={this.handleReset}
+          className="btn btn-primary btn-sm m-2"
+        >
+          Reset
+        </button>
+        {this.state.counters.map(counter => (
+          <Counter
+            key={counter.id}
+            onDelete={this.handleDelete}
+            onIncrement={this.handleIncrement}
+            counter={counter}
+          />
+        ))}
+      </div>
+    );
+  }
+}
+export default Counters;
+```
+
+---
+
+`PROJECTNAME/component/counter.jsx`
+
+```JavaScript
+import React, { Component } from "react";
+class Counter extends Component {
+  render() {
+    return (
+      <React.Fragment>
+        <span className={this.GetBadgeClasses()}>{this.formatCount()}</span>
+        <button
+          onClick={() => this.props.onIncrement(this.props.counter)}
+          className="btn btn-secondary btn-sm"
+        >
+          Increment
+        </button>
+
+        <button
+          onClick={() => this.props.onDelete(this.props.counter.id)}
+          className="btn btn-danger btn-sm m-2"
+        >
+          Delete
+        </button>
+        <ul />
+      </React.Fragment>
+    );
+  }
+
+  GetBadgeClasses() {
+    let classes = "badge m-2 badge-";
+    classes += this.props.counter === 0 ? "warning" : "primary";
+    return classes;
+  }
+
+  formatCount() {
+    const { value } = this.props.counter;
+    return value === 0 ? "Zero" : value;
+  }
+}
+
+export default Counter;
 
 ```
