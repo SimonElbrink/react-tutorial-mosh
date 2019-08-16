@@ -1,6 +1,9 @@
 # REACT WITH MOSH
 
-[Source : Youtube ](https://www.youtube.com/watch?v=Ke90Tje7VS0&t=4592s)
+Author: [Simon Elbrink](https://github.com/SimonElbrink)
+
+Source : [Youtube: Programming with Mosh
+](https://www.youtube.com/watch?v=Ke90Tje7VS0&t=4592s)
 
 ## INTRODUTION
 
@@ -571,4 +574,226 @@ class Counter extends Component {
 
 export default Counter;
 
+```
+
+### MULTIPLE COMPONENTS IN SYNC
+
+> - `App`
+>   - `NavBar`
+>   - `Counters`
+>     - `Counter`
+
+Make sure that you import and use `app`, like this.  
+`PROJECTNAME/component/index.js`
+
+```JavaScript
+import App from './App';
+```
+
+```JavaScript
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+Create a `Navbar` component.  
+`PROJECTNAME/component/navbar.jsx`
+
+```JavaScript
+class NavBar extends Component {
+  render() {
+    return (
+      <nav className="navbar navbar-light bg-light">
+        <a className="navbar-brand" href="#">
+          Navbar
+        </a>
+      </nav>
+    );
+  }
+}
+
+export default NavBar;
+```
+
+Import `NavBar` and add it to the render.  
+`PROJECTNAME/component/app.js`
+
+```Javascript
+import NavBar from './components/navbar';
+```
+
+```Javascript
+class App extends Component {
+
+  render() {
+    return (
+      <React.Fragment>
+        <NavBar/>
+      </React.Fragment>
+    );
+  }
+}
+
+export default App;
+```
+
+Now import and add the `Counters` part inside a `container`
+
+```JavaScript
+import Counters from './components/counters';
+```
+
+```JavaScript
+class App extends Component {
+
+  render() {
+    return (
+      <React.Fragment>
+        <NavBar/>
+        <main className="container">
+          <Counters/>
+        </main>
+      </React.Fragment>
+    );
+  }
+}
+```
+
+### LIFTING STATE UP
+
+**We want too display the number of unique items in `Navbar`**
+Start by  
+Moving `Counters` state and functions to `App`
+
+```JavaScript
+  state = {
+    counters: [
+      { id: 1, value: 4 },
+      { id: 2, value: 3 },
+      { id: 3, value: 1 },
+      { id: 4, value: 0 }
+    ]
+  };
+
+  handleIncrement = counter => {
+    const counters = [...this.state.counters];
+    const index = counters.indexOf(counter);
+    counters[index] = { ...counter };
+    counters[index].value++;
+    this.setState({ counters });
+
+  };
+
+  handleReset = () => {
+    const counters = this.state.counters.map(c => {
+      c.value = 0;
+      return c;
+    });
+    this.setState({ counters });
+  };
+
+  handleDelete = counterId => {
+    const counters = this.state.counters.filter(c => c.id !== counterId);
+    this.setState({ counters });
+  };
+```
+
+Pass the parameters to `Counters` from `App` like this.
+
+```JavaScript
+          <Counters
+            counters = {this.state.counters}
+            onReset={this.handleReset}
+            onIncrement={this.handleIncrement}
+            onDelete={this.handleDelete} />
+```
+
+In `Counters` access the props instead of the states.
+
+For example like tihs.
+
+`PROJECTNAME/component/Counters.jsx`
+
+```JavaScript
+          <Counter
+            key={counter.id}
+            onDelete={this.props.onDelete}
+            onIncrement={this.props.onIncrement}
+            counter={counter}
+          />
+```
+
+Lets pass information between `NavBar` and `App`
+
+`PROJECTNAME/component/App.js`
+
+```JavaScript
+<NavBar
+  totalCounters={this.state.counters.filter(c => c.value > 0).length}
+  />
+```
+
+You could access it like this.
+
+`PROJECTNAME/component/navbar.jsx`
+
+```JavaScript
+<span className="badge badge-pill badge-secondary">
+  {this.props.totalCounters}
+</span>
+```
+
+## STATELESS FUNCTIONAL COMPONENTS
+
+We have made component with classes so far,
+but we could make them with something called stateless functional components.  
+First we have the class but underneath i show you the stateless functional component.
+
+`PROJECTNAME/component/navbar.jsx`
+
+> **TIPS**  
+> _(Require extension: `burkeholland.simple-react-snippets`
+> )_
+>
+> Type `imrc` to import React component.  
+> Type `cc` to create a class component stem.
+
+```JavaScript
+import React, { Component } from "react";
+
+class NavBar extends Component {
+  render() {
+    return (
+      <nav className="navbar navbar-light bg-light">
+        <a className="navbar-brand" href="https://www.google.com">
+          Navbar{" "}
+          <span className="badge badge-pill badge-secondary">
+            {this.props.totalCounters}
+          </span>
+        </a>
+      </nav>
+    );
+  }
+}
+
+export default NavBar;
+```
+
+`PROJECTNAME/component/navbar.jsx`
+
+```JavaScript
+import React from "react";
+
+const NavBar = props => {
+  return (
+    <nav className="navbar navbar-light bg-light">
+      <a className="navbar-brand" href="https://www.google.com">
+        Navbar{" "}
+        <span className="badge badge-pill badge-secondary">
+          {props.totalCounters}
+        </span>
+      </a>
+    </nav>
+  );
+};
+
+export default NavBar;
 ```

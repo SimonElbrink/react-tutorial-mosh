@@ -3,7 +3,7 @@ import React, { Component } from "react";
 class Counter extends Component {
   render() {
     return (
-      <React.Fragment>
+      <div>
         <span className={this.GetBadgeClasses()}>{this.formatCount()}</span>
         <button
           onClick={() => this.props.onIncrement(this.props.counter)}
@@ -19,13 +19,13 @@ class Counter extends Component {
           Delete
         </button>
         <ul />
-      </React.Fragment>
+      </div>
     );
   }
 
   GetBadgeClasses() {
     let classes = "badge m-2 badge-";
-    classes += this.props.counter === 0 ? "warning" : "primary";
+    classes += this.props.counter.value === 0 ? "warning" : "primary";
     return classes;
   }
 
