@@ -797,3 +797,66 @@ const NavBar = props => {
 
 export default NavBar;
 ```
+
+## DESTRUCTURING ARGUMENTS
+
+These things may not look much to the world, but think of the possibilities.
+
+From this..
+
+```JavaScript
+const NavBar = props => {
+  return (
+    <span className="badge badge-pill badge-secondary">
+     {props.totalCounters}
+    </span>
+  );
+};
+
+```
+
+..to this.
+
+```JavaScript
+const NavBar = ({ totalCounters }) => { };
+```
+
+```JavaScript
+<span className="badge badge-pill badge-secondary">
+  {totalCounters}
+</span>
+```
+
+---
+
+From this..
+
+```JavaScript
+        {this.props.counters.map(counter => (
+          <Counter
+            key={counter.id}
+            onDelete={this.props.onDelete}
+            onIncrement={this.props.onIncrement}
+            counter={counter}
+          />
+        ))}
+```
+
+To This.
+
+Add this const and remove `this.props.`.
+
+```JavaScript
+    const { onReset, counters, onDelete, onIncrement } = this.props;
+```
+
+```JavaScript
+ {counters.map(counter => (
+          <Counter
+            key={counter.id}
+            onDelete={onDelete}
+            onIncrement={onIncrement}
+            counter={counter}
+          />
+        ))}
+```
