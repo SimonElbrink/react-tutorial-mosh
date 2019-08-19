@@ -863,6 +863,8 @@ Add this const and remove `this.props.`.
 
 ## LIFECYCLE HOOKS
 
+[LIFECYCLE HOOKS VIDEO](https://youtu.be/Ke90Tje7VS0?t=7853)
+
 > NOTE:  
 > You can not use lifecycle hooks in stateless Functional components.  
 >  Use class components.
@@ -879,4 +881,30 @@ navbar.jsx:4       NavBar - Rendered
 counters.jsx:6     Counters - Rendered
 (4)counter.jsx:5   Counter - Rendered
 App.js:27          App - Mounted
+```
+
+### UPDATE PHASE
+
+```JavaScript
+  componentDidUpdate(prevProps, prevState) {
+    console.log("PrevProps", prevProps);
+    console.log("prevState", prevState);
+    if (prevProps.counter.value !== this.props.counter.value) {
+      // Ajax call and get new data from the server
+    }
+  }
+```
+
+Console log:
+
+```
+App.js:54          App - Rendered
+navbar.jsx:4       NavBar - Rendered
+counters.jsx:6     Counters - Rendered
+(4)counter.jsx:13  Counter - Rendered
+counter.jsx:5 PrevProps {onDelete: ƒ, onIncrement: ƒ, counter: {…}}counter: {id: 1, value: 4}onDelete: counterId => {…}onIncrement: counter => {…}key: (...)get key: ƒ ()__proto__: Object
+counter.jsx:6 prevState null
+counter.jsx:5 PrevProps {onDelete: ƒ, onIncrement: ƒ, counter: {…}}
+counter.jsx:6 prevState null
+...
 ```
