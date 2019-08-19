@@ -860,3 +860,23 @@ Add this const and remove `this.props.`.
           />
         ))}
 ```
+
+## LIFECYCLE HOOKS
+
+> NOTE:  
+> You can not use lifecycle hooks in stateless Functional components.  
+>  Use class components.
+
+### MOUNTING PHASE
+
+Console outputs after adding loggs in code.
+Executes in this order.
+
+```
+App.js:19          App - Constructor
+App.js:54          App - Rendered
+navbar.jsx:4       NavBar - Rendered
+counters.jsx:6     Counters - Rendered
+(4)counter.jsx:5   Counter - Rendered
+App.js:27          App - Mounted
+```
