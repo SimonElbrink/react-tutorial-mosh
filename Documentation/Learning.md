@@ -408,7 +408,7 @@ Here is a example of `state`.
   };
 ```
 
-### RAISING AND HANDLING EVENTS
+## RAISING AND HANDLING EVENTS
 
 And
 
@@ -657,7 +657,7 @@ class App extends Component {
 }
 ```
 
-### LIFTING STATE UP
+## LIFTING STATE UP
 
 **We want too display the number of unique items in `Navbar`**
 Start by  
@@ -907,4 +907,30 @@ counter.jsx:6 prevState null
 counter.jsx:5 PrevProps {onDelete: ƒ, onIncrement: ƒ, counter: {…}}
 counter.jsx:6 prevState null
 ...
+```
+
+### UNMOUNTING PHASE
+
+```
+  componentWillUnmount() {
+    console.log("Counter - Unmount");
+  }
+```
+
+_Click delete button_  
+React figures out that one counter is removed and calls unmount, before updating the DOM.
+Inside unmount you can do a clean up, to prevent memory leaks.
+
+```
+App.js:54 App - Rendered
+navbar.jsx:4 NavBar - Rendered
+counters.jsx:6 Counters - Rendered
+(3)counter.jsx:17 Counter - Rendered
+counter.jsx:13 Counter - Unmount
+counter.jsx:5 PrevProps {onDelete: ƒ, onIncrement: ƒ, counter: {…}}
+counter.jsx:6 prevState null
+counter.jsx:5 PrevProps {onDelete: ƒ, onIncrement: ƒ, counter: {…}}
+counter.jsx:6 prevState null
+counter.jsx:5 PrevProps {onDelete: ƒ, onIncrement: ƒ, counter: {…}}
+counter.jsx:6 prevState null
 ```
